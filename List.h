@@ -10,43 +10,46 @@
 #define ERROR 0
 typedef int ElemType,Status;
 
+// 大话数据结构中的写法
 typedef struct LNode {
     ElemType data;
     struct LNode *next;
 }LNode,*LinkList;
 
-// initial -> head insrt
-Status CreateListHead_H(LinkList L, int n)
+// initial -> head insrt (Linklist *L是一个二级指针，传参数要加&)
+Status CreateListHead_H(LinkList *L,int n)
 {
-    L = (LinkList)malloc(sizeof(LNode));
-    LNode *s;
-    L->next = NULL;
-    int i;
-    ElemType ele;
-    for (i = 0; i < n; ++i) {
-        scanf("%d", &ele);
-        s = (LinkList)malloc(sizeof(LNode));
-        s->data = ele;
-        s->next = L->next;
-        L->next = s;
-    }
-    return OK;
-}
+	(*L) = (LinkList)malloc(sizeof(LNode));
+	(*L)->next = NULL;
+	LinkList s;
+	int i;
+	ElemType ele;
+	for(i = 0; i < n; ++i) {
+		scanf("%d",&ele);
+		s = (LinkList)malloc(sizeof(LNode));		
+		s->data = ele;
+		s->next = (*L)->next;
+		(*L)->next = s;
+	}
+	return OK;
+} 
 
 // intial -> rear insert
-Status CreateListRear_H(LinkList L, int n)
+Status CreateListRear_H(LinkList *L, int n)
 {
-    L = (LinkList)malloc(sizeof(LNode));
-    L->next = NULL;
-    LNode *s;
-    LNode *r = L;
+    (*L) = (LinkList)malloc(sizeof(LNode));
+    (*L)->next = NULL;
 
-    int i;
+    LinkList s;
+    LinkList r = *L;
     ElemType ele;
+    int i;
+
     for (i = 0; i < n; ++i) {
         /* code */
         scanf("%d", &ele);
         s = (LinkList)malloc(sizeof(LNode));
+        s->data = ele;
         r->next = s;
         r = s;
     }
@@ -74,7 +77,7 @@ LNode *GetList_Pos(LinkList L, int pos)
         return NULL;
     }
 
-    LNode *ndoe = L;
+    LNode *node = L;
 
     int j = 0;
     while (node && j < pos) {
@@ -87,7 +90,7 @@ LNode *GetList_Pos(LinkList L, int pos)
         printf("insert pos is out of range!\n");
         // fprintf("");
     }
-    return Node;
+    return node;
 }
 
 // Insert (using function GetList_Pos)
@@ -110,21 +113,26 @@ Status DeleteElem(LinkList L, int pos, ElemType *ele)
     LNode *del_node = (LinkList)malloc(sizeof(LNode));
     node = GetList_Pos(L, pos - 1);
     del_node = node->next;
-    *del_node = del_node->next;
+    del_node = del_node->next;
     free(del_node);
     return OK;
 }
 
 // print 
-void PrintList(LinkList L)
+void PrintList(LinkList *L)
 {
-    LNode *node = L->next;
-    printf("the element of linklist is: \n");
-    while (node != NULL) {
-        printf("%d\t", node->data);
-        node = node->next;
-    }
-    printf("\n\n");
+	LNode *node = (*L)->next;
+	printf("the element of linklist: \n"); 
+	while (node != NULL) {
+		printf("%d\t",node->data);
+		node = node->next;
+	} 
+	printf("\n\n");
+}
+
+void MemoryFree(LinkList *L)
+{
+    free(*L);
 }
 
 // Merge (not understand)

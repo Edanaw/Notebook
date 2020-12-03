@@ -6,14 +6,14 @@
 typedef int ElemType,Status;
 typedef struct LNode{
 	ElemType data;
-	struct LNode * next;
+	struct LNode *next;
 }LNode,*LinkList;
 
 //初始化-头插法 
-Status CreateList_H(LinkList & L,int n)
+Status CreateList_H(LinkList &L,int n)
 {
 	L = (LinkList)malloc(sizeof(LNode));
-	LNode * s;
+	LNode *s;
 	L->next = NULL;
 	int i;
 	ElemType ele;
@@ -33,8 +33,8 @@ Status CreateList_T(LinkList &L,int n)
 {
 	L = (LinkList)malloc(sizeof(LNode));
 	L->next = NULL;
-	LNode * s;
-	LNode * r = L;
+	LNode *s;
+	LNode *r = L;
 	int i;
 	ElemType ele;
 	for(i = 0;i < n;i++)
@@ -88,7 +88,7 @@ LNode * GetList_Pos(LinkList L,int pos)
 }
 
 //插入 
-Status InserElem(LinkList & L,int pos,ElemType inser_ele)
+Status InserElem(LinkList &L,int pos,ElemType inser_ele)
 {
 	LNode * node;
 	LNode * new_node = (LNode*)malloc(sizeof(LNode));
@@ -100,7 +100,7 @@ Status InserElem(LinkList & L,int pos,ElemType inser_ele)
 }
 
 //删除
-Status DeleteElem(LinkList & L,int pos,ElemType * del_ele)
+Status DeleteElem(LinkList &L,int pos,ElemType * del_ele)
 {
 	LNode * node;
 	LNode *del_node;
@@ -126,7 +126,7 @@ void PrintList(LinkList L)
 }
 
 //合并
-void MergeList(LinkList & LA,LinkList & LB,LinkList & LC)
+void MergeList(LinkList &LA, LinkList &LB, LinkList &LC)
 {
 	LNode * anode = LA->next;
 	LNode * bnode = LB->next;
@@ -158,22 +158,28 @@ int main()
 	LNode * find_node;
 	ElemType del_ele;
 	int pos;
+	
 	printf("初始化链表L，请输入5个数字："); 
 	CreateList_T(L,5);
 	PrintList(L);
+	
 	printf("请输入要插入的元素以及插入的位置:(用逗号隔开，输入法为英文)");
 	scanf("%d,%d",&inser_ele,&pos);
 	InserElem(L,pos,inser_ele); 
 	PrintList(L);
+	
 	printf("请输入要删除元素的位置：");
 	scanf("%d",&pos);
 	DeleteElem(L,pos,&del_ele); 
 	printf("所删除的元素为：%d",del_ele);
 	PrintList(L);
+	
 	printf("请输入要查找的元素的位置：");
 	scanf("%d",&pos);
 	find_node = GetList_Pos(L,pos);
 	printf("所查找的元素为:%d\n",find_node->data); 
+	
+	
 	printf("------接下来为单链表的合并---------\n");
 	LinkList LA; 
 	LinkList LB; 
